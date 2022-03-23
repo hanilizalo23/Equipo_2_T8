@@ -30,3 +30,35 @@ void i2c_master_init(void)
 }
 
 
+
+void i2c_master_write(uint8_t address, uint8_t data)
+{
+	g_master_txBuff[0] = data;
+	uint8_t deviceAddress     = address;
+
+	g_masterXfer.slaveAddress   = I2C_MASTER_SLAVE_ADDR_7BIT;
+	g_masterXfer.direction      = kI2C_Write;
+	g_masterXfer.subaddress     = (uint32_t)deviceAddress;
+	g_masterXfer.subaddressSize = 1;
+	g_masterXfer.data           = g_master_txBuff;
+	g_masterXfer.dataSize       = I2C_DATA_LENGTH;
+	g_masterXfer.flags          = kI2C_TransferDefaultFlag;
+
+	I2C_MasterTransferBlocking(EXAMPLE_I2C_MASTER_BASEADDR, &g_masterXfer);
+}
+
+uint8_t i2c_master_read(uint8_t address)
+{
+	uint8_t deviceAddress     = address;
+	g_masterXfer.slaveAddress   = I2C_MASTER_SLAVE_ADDR_7BIT;
+	g_masterXfer.direction      = kI2C_Read;
+	g_masterXfer.subaddress     = (uint32_t)deviceAddress;
+	g_masterXfer.subaddressSize = 1;
+	g_masterXfer.data           = g_master_rxBuff;
+	g_masterXfer.dataSize       = I2C_DATA_LENGTH;
+	g_masterXfer.flags          = kI2C_TransferDefaultFlag;
+
+	I2C_MasterTransferBlocking(EXAMPLE_I2C_MASTER_BASEADDR, &g_masterXfer);
+
+	return g_master_rxBuff[0];
+}

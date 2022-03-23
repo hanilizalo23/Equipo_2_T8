@@ -25,6 +25,7 @@
 #define I2C_DATA_LENGTH            1U
 
 void i2c_master_init(void); /**Initialize*/
-
+void i2c_master_write(uint8_t addres, uint8_t data); /**Master writes*/
+uint8_t i2c_master_read(uint8_t addres); /**Master reads*/
 
 #endif /* I2C_H_ */
