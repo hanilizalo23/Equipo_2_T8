@@ -53,6 +53,74 @@ void UART_loop(void)
 
     while(1)
     {
+        if(MAIN_MENU == function_state)
+        {
+        	if(TRUE == functionality_state)
+        	{
+        		UART_WriteBlocking(DEMO_UART, "\033[0;35;43m", sizeof("\033[0;35;43m") - 1);
+				UART_WriteBlocking(DEMO_UART, "\033[2J", sizeof("\033[2J") - 1);
+				UART_WriteBlocking(DEMO_UART, "\033[10;10H", sizeof("\033[10;10H") - 1);
+				UART_WriteBlocking(DEMO_UART, "1) Leer Hora", sizeof("1) Leer Hora") - 1);
+				UART_WriteBlocking(DEMO_UART, "\033[11;10H", sizeof("\033[11;10H") - 1);
+				UART_WriteBlocking(DEMO_UART, "2) Configurar Hora", sizeof("2) Configurar Hora") - 1);
+				UART_WriteBlocking(DEMO_UART, "\033[12;10H", sizeof("\033[12;10H") - 1);
+				functionality_state = FALSE;
+        	}
+        	if(KEY_ONE == key_pressed)
+        	{
+        		function_state = CLOCK;
+        		functionality_state = TRUE;
+        	}
+        	if(KEY_TWO == key_pressed)
+			{
+				function_state = SET_CLOCK;
+				functionality_state = TRUE;
+			}
+        }
+        if(CLOCK == function_state)
+		{
+        	if(TRUE == functionality_state)
+			{
+        		UART_WriteBlocking(DEMO_UART, "\033[0;35;43m", sizeof("\033[0;35;43m") - 1);
+        		UART_WriteBlocking(DEMO_UART, "\033[2J", sizeof("\033[2J") - 1);
+        		UART_WriteBlocking(DEMO_UART, "\033[10;10H", sizeof("\033[10;10H") - 1);
+				UART_WriteBlocking(DEMO_UART, "1) Leer Hora", sizeof("1) Leer Hora") - 1);
+				UART_WriteBlocking(DEMO_UART, "\033[11;10H", sizeof("\033[11;10H") - 1);
+				UART_WriteBlocking(DEMO_UART, "  2) 12:35:20 AM", sizeof("  2) 12:35:20 AM") - 1);
+				UART_WriteBlocking(DEMO_UART, "\033[12;10H", sizeof("\033[12;10H") - 1);
+				functionality_state = FALSE;
+			}
+			else
+			{
 
+			}
+			if(KEY_ESC == key_pressed)
+			{
+				function_state = MAIN_MENU;
+				functionality_state = TRUE;
+			}
+		}
+        if(SET_CLOCK == function_state)
+		{
+        	if(TRUE == functionality_state)
+			{
+        		UART_WriteBlocking(DEMO_UART, "\033[0;35;43m", sizeof("\033[0;35;43m") - 1);
+        		UART_WriteBlocking(DEMO_UART, "\033[2J", sizeof("\033[2J") - 1);
+        		UART_WriteBlocking(DEMO_UART, "\033[10;10H", sizeof("\033[10;10H") - 1);
+				UART_WriteBlocking(DEMO_UART, "1) Introducir la hora actual en formato HH:MM:SS", sizeof("1) Introducir la hora actual en formato HH:MM:SS") - 1);
+				UART_WriteBlocking(DEMO_UART, "\033[11;10H", sizeof("\033[11;10H") - 1);
+				functionality_state = FALSE;
+			}
+			else
+			{
+
+			}
+			if(KEY_ESC == key_pressed)
+			{
+				function_state = MAIN_MENU;
+				functionality_state = TRUE;
+			}
+		}
+        UART_ReadBlocking(DEMO_UART, &key_pressed, 1);
     }
 }
