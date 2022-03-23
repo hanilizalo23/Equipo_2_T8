@@ -32,6 +32,8 @@ typedef enum {
 } AM_or_PM_t;
 
 void set_12_or_24(is_12_or_24_t select); /**Setter for hour format*/
-
+void set_AM_or_PM(AM_or_PM_t select); /**Setter for hour format*/
+void set_hour(uint8_t hour); /*Setter for hour*/
+void set_minute(uint8_t minute); /**Setter for minute*/
 
 #endif /* RTC_H_ */
