@@ -15,6 +15,7 @@ int main (void)
 	BOARD_InitDebugConsole();
 	UART_init();
 	UART_loop();
+	i2c_master_init();
 
 	while (1)
 	{
