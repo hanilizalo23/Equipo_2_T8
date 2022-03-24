@@ -8,7 +8,7 @@
 #ifndef RTC_H_
 #define RTC_H_
 
-#include "I2C.h"
+#include "I2C_driver.h"
 
 #define SEC_ADDRESS 0x00U
 #define MIN_ADDRESS 0x01U
@@ -19,6 +19,7 @@
 #define SET_24 (0xBFU)
 #define SET_12 (0x40U)
 #define CLEAR_HOUR (0x60U)
+#define ONE_SECOND 1U
 
 typedef enum {
 	TFOUR,
@@ -41,5 +42,6 @@ is_12_or_24_t get_12_or_24(void); /**Getter for hour format*/
 uint8_t get_hour(void); /**Getter for hour*/
 uint8_t get_minute(void); /**Getter for minute*/
 uint8_t get_second(void); /**Getter for second*/
+void add_one_second(void); /**Adds one second when the interruption of MFP comes*/
 
 #endif /* RTC_H_ */

@@ -6,7 +6,7 @@
  */
 
 #include "RTC.h"
-#include "I2C.h"
+#include "I2C_driver.h"
 
 void set_12_or_24(is_12_or_24_t select)
 {
@@ -106,4 +106,10 @@ uint8_t get_second(void)
 	uint8_t temp = 0;
 	temp = i2c_master_read(SEC_ADDRESS);
 	return temp;
+}
+
+void add_one_second(void)
+{
+	uint8_t current_sec = get_second();
+	i2c_master_write(SEC_ADDRESS, (current_sec + ONE_SECOND));
 }
