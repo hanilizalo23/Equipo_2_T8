@@ -86,4 +86,24 @@ is_12_or_24_t get_12_or_24(void)
 	return temp;
 }
 
+uint8_t get_hour(void)
+{
+	uint8_t temp = 0;
+	temp = i2c_master_read(HOUR_ADDRESS);
+	temp &= HOUR_READ_MASK;
+	return temp;
+}
 
+uint8_t get_minute(void)
+{
+	uint8_t temp = 0;
+	temp = i2c_master_read(MIN_ADDRESS);
+	return temp;
+}
+
+uint8_t get_second(void)
+{
+	uint8_t temp = 0;
+	temp = i2c_master_read(SEC_ADDRESS);
+	return temp;
+}

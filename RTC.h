@@ -38,5 +38,8 @@ void set_minute(uint8_t minute); /**Setter for minute*/
 void set_second(uint8_t second); /**Setter for second*/
 AM_or_PM_t get_AM_or_PM(void); /**Getter for hour format*/
 is_12_or_24_t get_12_or_24(void); /**Getter for hour format*/
+uint8_t get_hour(void); /**Getter for hour*/
+uint8_t get_minute(void); /**Getter for minute*/
+uint8_t get_second(void); /**Getter for second*/
 
 #endif /* RTC_H_ */
