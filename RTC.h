@@ -35,5 +35,8 @@ void set_12_or_24(is_12_or_24_t select); /**Setter for hour format*/
 void set_AM_or_PM(AM_or_PM_t select); /**Setter for hour format*/
 void set_hour(uint8_t hour); /*Setter for hour*/
 void set_minute(uint8_t minute); /**Setter for minute*/
+void set_second(uint8_t second); /**Setter for second*/
+AM_or_PM_t get_AM_or_PM(void); /**Getter for hour format*/
+is_12_or_24_t get_12_or_24(void); /**Getter for hour format*/
 
 #endif /* RTC_H_ */

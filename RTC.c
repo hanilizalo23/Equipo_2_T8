@@ -51,3 +51,39 @@ void set_minute(uint8_t minute)
 	i2c_master_write(MIN_ADDRESS,minute);
 }
 
+void set_second(uint8_t second)
+{
+	i2c_master_write(SEC_ADDRESS,second);
+}
+
+AM_or_PM_t get_AM_or_PM(void)
+{
+	uint8_t temp = 0;
+	temp = i2c_master_read(HOUR_ADDRESS);
+	if(temp & AM_SET)
+	{
+		temp = PM;
+	}
+	else
+	{
+		temp = AM;
+	}
+	return temp;
+}
+
+is_12_or_24_t get_12_or_24(void)
+{
+	uint8_t temp = 0;
+	temp = i2c_master_read(HOUR_ADDRESS);
+	if(temp & SET_12)
+	{
+		temp = TWELVE;
+	}
+	else
+	{
+		temp = TFOUR;
+	}
+	return temp;
+}
+
+
