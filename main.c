@@ -10,6 +10,10 @@
 #include "RTC.h"
 #include "UART_driver.h"
 
+#include <stdio.h>
+#include <stdint.h>
+#include "MK64F12.h"
+
 int main (void)
 {
 	BOARD_InitDebugConsole();
