@@ -5,7 +5,9 @@
  *      Author: Mauricio Peralta
  */
 
-#include "I2C.h"
+#include "I2C_driver.h"
+#include "NVIC.h"
+#include "RTC.h"
 
 uint8_t g_master_txBuff[I2C_DATA_LENGTH];
 uint8_t g_master_rxBuff[I2C_DATA_LENGTH];
@@ -15,21 +17,24 @@ i2c_master_transfer_t g_masterXfer;
 
 void i2c_master_init(void)
 {
-	GPIO_clock_gating(GPIO_B);
-	gpio_pin_control_register_t i2c_pin_config = GPIO_MUX2 | GPIO_PE;
-	GPIO_pin_control_register(GPIO_B,bit_2,  &i2c_pin_config); /**SCL*/
-	GPIO_data_direction_pin(GPIO_B, GPIO_OUTPUT,  bit_2);
-	GPIO_pin_control_register(GPIO_B,bit_3,  &i2c_pin_config); /**SDA*/
-	GPIO_data_direction_pin(GPIO_B, GPIO_OUTPUT,  bit_3);
+	CLOCK_EnableClock(kCLOCK_PortD);
+
+	PORT_SetPinMux(PORTB, 2U, kPORT_MuxAlt2); /**SCL*/
+	PORT_SetPinMux(PORTB, 3U, kPORT_MuxAlt2); /**SDA*/
+	PORT_SetPinMux(PORTD, 0U, kPORT_MuxAsGpio); /**MFP*/
+
     BOARD_BootClockRUN();
+
+    NVIC_set_basepri_threshold(PRIORITY_10); /**Limit for the priorities*/
+    NVIC_enable_interrupt_and_priotity(PORTD_IRQ, PRIORITY_4); /**Set priority and enabling port D*/
+    GPIO_callback_init(GPIO_D, add_one_second); /**Callback for MFP, couldn't find on SDK, using own GPIO drivers for this*/
+    NVIC_global_enable_interrupts; /**Enabling NVIC*/
 
 	I2C_MasterGetDefaultConfig(&g_masterConfig);
 	g_masterConfig.baudRate_Bps = I2C_BAUDRATE;
 	g_sourceClock = I2C_MASTER_CLK_FREQ;
 	I2C_MasterInit(EXAMPLE_I2C_MASTER_BASEADDR, &g_masterConfig, g_sourceClock);
 }
-
-
 
 void i2c_master_write(uint8_t address, uint8_t data)
 {
